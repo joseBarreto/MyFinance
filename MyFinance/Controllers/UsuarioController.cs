@@ -28,13 +28,36 @@ namespace MyFinance.Controllers
             {
                 HttpContext.Session.SetString("NomeUsuarioLogado", usuario.Nome);
                 HttpContext.Session.SetString("IdUsuarioLogado", usuario.Id.ToString());
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Menu", "Home");
             }
             else
             {
                 TempData["MessagemLoginInvalido"] = "Dados de login inválidos";
                 return RedirectToAction("Login");
             }
+        }
+
+
+        [HttpPost]
+        public IActionResult Registrar(UsuarioModel usuario)
+        {
+            if (ModelState.IsValid)
+            {
+                usuario.RegistrarUsuario();
+                return RedirectToAction("Sucesso");
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Registrar()
+        {
+            return View();
+        }
+
+        public IActionResult Sucesso()
+        {
+            return View();
         }
     }
 }
