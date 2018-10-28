@@ -1,7 +1,50 @@
-﻿
+﻿@model PlanoContaModel
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h3>Plano contas</h3>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Descrição</th>
+            <th>Tipo</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    @{
+        foreach (var item in (List<PlanoContaModel>)ViewBag.ListaPlanoConta)
+        {
+            <tbody>
+                <tr>
+                    <td>@item.Descricao</td>
+                    <td>@item.Tipo.Replace("R", "Receita").Replace("D", "Despesa")</td>
+                    <td>
+                        <button type="button" class="btn btn-danger" onclick="Excluir(@item.Id.ToString())">Excluir</button>
+                        <button type="button" class="btn btn-primary" onclick="Editar(@item.Id.ToString())">Editar</button>
+                    </td>
+                </tr>
+            </tbody>
+        }
+    }
+</table>
+
+<button type="button" class="btn btn-block btn-success" onclick="CriarPlanoConta()">Criar Plano de Conta</button>
+
+<script>
+
+    function CriarPlanoConta() {
+        window.location.href = "../PlanoConta/CriarPlanoConta"
+    }
+
+    function Excluir(id) {
+        window.location.href = "../PlanoConta/ExcluirPlanoConta/" + id;
+    }
+
+    function Editar(id) {
+        window.location.href = "../PlanoConta/CriarPlanoConta/" + id;
+    }
+</script>
 

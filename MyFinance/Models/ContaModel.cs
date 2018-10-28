@@ -16,10 +16,7 @@ namespace MyFinance.Models
         [Required(ErrorMessage = "Informe o valor inicial desta conta")]
         public double? Saldo { get; set; }
         public int Usuario_Id { get; set; }
-
-        public ContaModel()
-        {
-        }
+       
 
         public List<ContaModel> GetContas(int id_usuario_logado)
         {
@@ -41,7 +38,6 @@ namespace MyFinance.Models
 
             return list;
         }
-
 
         public void Insert(int id_usuario_logado)
         {
