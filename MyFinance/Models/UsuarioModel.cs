@@ -18,7 +18,7 @@ namespace MyFinance.Models
         [Required(ErrorMessage = "Informe sua Senha")]
         public string Senha { get; set; }
         [Required(ErrorMessage = "Informe sua Data de Nascimento")]
-        public string Data_Nascimento { get; set; }
+        public DateTime? Data_Nascimento { get; set; }
 
         public bool ValidarLogin()
         {
@@ -29,8 +29,7 @@ namespace MyFinance.Models
             {
                 Id = int.Parse(dt.Rows[0]["ID"].ToString());
                 Nome = dt.Rows[0]["NOME"].ToString();
-                Data_Nascimento = dt.Rows[0]["DATA_NASCIMENTO"].ToString();
-
+                Data_Nascimento = DateTime.Parse( dt.Rows[0]["DATA_NASCIMENTO"].ToString());
                 return true;
             }
 
@@ -42,7 +41,7 @@ namespace MyFinance.Models
             string sql = $"INSERT INTO USUARIO " +
                 $"(NOME, EMAIL, SENHA, DATA_NASCIMENTO) " +
                 $"VALUES " +
-                $"('{Nome}', '{Email}', '{Senha}', '{DateTime.Parse(Data_Nascimento).ToString("yyy/MM/dd")}')";
+                $"('{Nome}', '{Email}', '{Senha}', '{Data_Nascimento?.ToString("yyy/MM/dd")}')";
 
             Util.DAL.ExecutarComandoSql(sql);
         }

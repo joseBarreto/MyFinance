@@ -19,14 +19,26 @@
             <tbody>
                 <tr>
                     <td>@item.Nome</td>
-                    <td>R$ @item.Saldo.ToString("N2")</td>
+                    <td>R$ @item.Saldo?.ToString("N2")</td>
                     <td>
-                    <button type="button" class="btn btn-danger">Excluir</button>
-                    <button type="button" class="btn btn-info">Alterar</button>
+                        <button type="button" class="btn btn-danger" onclick="Excluir(@item.Id.ToString())">Excluir</button>
+                        <button type="button" class="btn btn-info">Alterar</button>
                     </td>
                 </tr>
             </tbody>
         }
     }
-
 </table>
+
+<button type="button" class="btn btn-block btn-success" onclick="CriarConta()">Criar Conta</button>
+
+<script>
+
+    function CriarConta() {
+        window.location.href = "../Conta/CriarConta"
+    }
+
+    function Excluir(id) {
+        window.location.href = "../Conta/ExcluirConta/" + id;
+    }
+</script>
