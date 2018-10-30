@@ -16,7 +16,7 @@ namespace MyFinance.Models
         [Required(ErrorMessage = "Informe o valor inicial desta conta")]
         public double? Saldo { get; set; }
         public int Usuario_Id { get; set; }
-       
+
 
         public List<ContaModel> GetContas(int id_usuario_logado)
         {
@@ -39,6 +39,21 @@ namespace MyFinance.Models
             return list;
         }
 
+        public ContaModel CarregarRegistro(int? id)
+        {
+            string sql = $"SELECT ID, NOME, SALDO, USUARIO_ID FROM CONTA WHERE ID = {id}";
+            var dt = Util.DAL.RetDataTable(sql);
+            ContaModel conta = new ContaModel()
+            {
+                Id = int.Parse(dt.Rows[0]["ID"].ToString()),
+                Nome = dt.Rows[0]["NOME"].ToString(),
+                Saldo = double.Parse(dt.Rows[0]["SALDO"].ToString()),
+                Usuario_Id = int.Parse(dt.Rows[0]["USUARIO_ID"].ToString())
+            };
+
+            return conta;
+        }
+
         public void Insert(int id_usuario_logado)
         {
             string sql = $"INSERT INTO CONTA " +
@@ -52,6 +67,12 @@ namespace MyFinance.Models
         public void Excluir(int id)
         {
             string sql = $"DELETE FROM CONTA WHERE ID = {id}";
+            Util.DAL.ExecutarComandoSql(sql);
+        }
+
+        public void Update()
+        {
+            string sql = $"UPDATE CONTA SET NOME = '{Nome}', SALDO = '{Saldo}' WHERE ID = {Id}";
             Util.DAL.ExecutarComandoSql(sql);
         }
     }

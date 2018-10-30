@@ -1,7 +1,74 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
-}
+﻿@model TransacaoModel
 
-<h2>Index</h2>
+<h3>Transações</h3>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Conta</th>
+            <th>Plano de contas</th>
+            <th>Tipo</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    @{
+        foreach (var item in (List<TransacaoModel>)ViewBag.ListaTransacoes)
+        {
+            <tbody>
+                <tr>
+                    <td>@item.Data?.ToString("dd/MM/yyyy")</td>
+                    <td>@item.Descricao</td>
+                    <td>R$: @item.Valor.ToString("N2")</td>
+                    <td>@item.Conta_Nome</td>
+                    <td>@item.Plano_Contas_Descricao</td>
+                    <td>@item.Tipo.Replace("R", "Receita").Replace("D", "Despesa")</td>
+                    <td>
+                        <button type="button" class="btn btn-danger" onclick="Excluir(@item.Id.ToString())">Excluir</button>
+                        <button type="button" class="btn btn-primary" onclick="Editar(@item.Id.ToString())">Editar</button>
+                    </td>
+                </tr>
+            </tbody>
+        }
+    }
+</table>
+
+<button type="button" class="btn btn-success" onclick="Inserir()">Criar Transação</button>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="conteudoModal"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function Excluir(id) {
+        $("#conteudoModal").load("../Transacao/ExcluirTransacao/" + id,
+            function () {
+                $("#myModal").modal("show");
+            });
+    }
+
+    function Inserir() {
+        $("#conteudoModal").load("../Transacao/CriarTransacao",
+            function () {
+                $("#myModal").modal("show");
+            });
+    }
+
+    function Editar(id) {
+        $("#conteudoModal").load("../Transacao/CriarTransacao/" + id,
+            function () {
+                $("#myModal").modal("show");
+            });
+    }
+</script>
 

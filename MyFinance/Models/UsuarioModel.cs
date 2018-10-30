@@ -29,7 +29,7 @@ namespace MyFinance.Models
             {
                 Id = int.Parse(dt.Rows[0]["ID"].ToString());
                 Nome = dt.Rows[0]["NOME"].ToString();
-                Data_Nascimento = DateTime.Parse( dt.Rows[0]["DATA_NASCIMENTO"].ToString());
+                Data_Nascimento = DateTime.Parse(dt.Rows[0]["DATA_NASCIMENTO"].ToString());
                 return true;
             }
 

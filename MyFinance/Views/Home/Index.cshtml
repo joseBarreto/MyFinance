@@ -1,12 +1,45 @@
 ﻿<div class="row">
-    <div class="col-lg-6">
-        <button type="button" class="btn btn-block btn-primary" onclick="location.href='@Url.Action("Login", "Usuario")'">
-        Entrar no Sistema
-        </button>
-    </div>
-    <div class="col-lg-6">
-        <button type="button" class="btn btn-block btn-success" onclick="location.href='@Url.Action("Registrar", "Usuario")'">
-        Registrar uma conta
-        </button>
-    </div>
+    <a asp-area="" asp-controller="Conta" asp-action="Index">
+        <div class="col-lg-4 text-center">
+            <img src="~/images/conta.png" width="35%" />
+            <h3>Criar Conta</h3>
+        </div>
+    </a>
+    <a asp-area="" asp-controller="PlanoConta" asp-action="Index">
+        <div class="col-lg-4 text-center">
+            <img src="~/images/planocontas.png" width="35%" />
+            <h3>Plano de Contas</h3>
+        </div>
+    </a>
+
+    <a asp-area="" asp-controller="Transacao" asp-action="Index">
+        <div class="col-lg-4 text-center">
+            <img src="~/images/registrar_transacao.png" width="35%" />
+            <h3>Registrar Transação</h3>
+        </div>
+    </a>
 </div>
+
+<br /> <br /> <br />
+
+<div class="row">
+    <a asp-area="" asp-controller="Transacao" asp-action="Extrato">
+        <div class="col-lg-4 text-center">
+            <img src="~/images/extrato.png" width="35%" />
+            <h3>Extrato</h3>
+        </div>
+    </a>
+    <a asp-area="" asp-controller="Transacao" asp-action="Dashboard">
+        <div class="col-lg-4 text-center">
+            <img src="~/images/dashboard.png" width="35%" />
+            <h3>Dashboard</h3>
+        </div>
+    </a>
+    <a asp-area="" asp-controller="Home" asp-action="Ajuda">
+        <div class="col-lg-4 text-center">
+            <img src="~/images/ajuda.png" width="35%" />
+            <h3>Ajuda</h3>
+        </div>
+    </a>
+</div>
+

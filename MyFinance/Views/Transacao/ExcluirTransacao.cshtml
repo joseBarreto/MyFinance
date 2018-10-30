@@ -1,0 +1,23 @@
+﻿
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title" id="myModalLabel">Deseja excluir a Transação abaixo?</h4>
+</div>
+
+<p><strong>ID:</strong>@ViewBag.Registro.Data.ToString("dd/MM/yyyy") </p>
+<p><strong>Descrição:</strong>@ViewBag.Registro.Descricao</p>
+<p><strong>Valor:</strong>R$ @ViewBag.Registro.Valor.ToString("N2")</p>
+
+<div class="modal-footer">
+    <button type="button" data-dismiss="modal" class="btn btn-default">Cancelar</button>
+    <button type="button" onclick="ExcluirRegistro(@ViewBag.Registro.Id)" class="btn btn-danger">Excluir</button>
+</div>
+
+
+<script>
+    function ExcluirRegistro(id) {
+        window.location.href = "../../Transacao/Excluir/" + id;
+    }
+</script>
+
+

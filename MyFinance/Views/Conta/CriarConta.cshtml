@@ -2,16 +2,30 @@
 
 <h3>Criar Conta</h3>
 
+@{
+    var vNome = "";
+    var vSaldo = 0.0;
+    var vId = 0;
+    if (ViewBag.Registro != null)
+    {
+        vNome = ViewBag.Registro.Nome.ToString();
+        vSaldo = double.Parse(ViewBag.Registro.Saldo.ToString());
+        vId = int.Parse(ViewBag.Registro.Id.ToString());
+    }
+}
+
 <form asp-controller="Conta" asp-action="CriarConta">
+    <input type="hidden" asp-for="Id" value="@vId" />
+
     <div class="form-group">
         <label>Nome:</label>
-        <input type="text" class="form-control" asp-for="Nome" />
+        <input type="text" class="form-control" asp-for="Nome" value="@vNome" />
         <span asp-validation-for="Nome" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label >Saldo:</label>
-        <input type="number" min="1" step="any" class="form-control" asp-for="Saldo" />
+        <label>Saldo:</label>
+        <input type="number" min="1" step="any" class="form-control" asp-for="Saldo" value="@vSaldo" />
         <span asp-validation-for="Saldo" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-block btn-success">Cadastrar</button>

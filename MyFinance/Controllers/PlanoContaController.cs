@@ -19,7 +19,8 @@ namespace MyFinance.Controllers
 
         public IActionResult Index()
         {
-            int id_usuario_logado = int.Parse(HttpContextAccessor.HttpContext.Session.GetString("IdUsuarioLogado"));
+            int.TryParse(HttpContextAccessor.HttpContext.Session.GetString("IdUsuarioLogado"), out int id_usuario_logado);
+
             ViewBag.ListaPlanoConta = new PlanoContaModel().GetPlanoContas(id_usuario_logado);
             return View();
         }
@@ -34,14 +35,13 @@ namespace MyFinance.Controllers
             return View();
         }
 
-
-
         [HttpPost]
         public IActionResult CriarPlanoConta(PlanoContaModel planoContaModel)
         {
             if (ModelState.IsValid)
             {
-                int id_usuario_logado = int.Parse(HttpContextAccessor.HttpContext.Session.GetString("IdUsuarioLogado"));
+                int.TryParse(HttpContextAccessor.HttpContext.Session.GetString("IdUsuarioLogado"), out int id_usuario_logado);
+
 
                 if (planoContaModel.Id > 0)
                 {

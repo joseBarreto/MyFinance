@@ -1,8 +1,4 @@
 ﻿
-@{
-    ViewData["Title"] = "Index";
-}
-
 <h3>Minhas contas</h3>
 
 <table class="table table-bordered">
@@ -22,7 +18,7 @@
                     <td>R$ @item.Saldo?.ToString("N2")</td>
                     <td>
                         <button type="button" class="btn btn-danger" onclick="Excluir(@item.Id.ToString())">Excluir</button>
-                        <button type="button" class="btn btn-info">Alterar</button>
+                        <button type="button" class="btn btn-primary" onclick="Editar(@item.Id.ToString())">Editar</button>
                     </td>
                 </tr>
             </tbody>
@@ -30,15 +26,18 @@
     }
 </table>
 
-<button type="button" class="btn btn-block btn-success" onclick="CriarConta()">Criar Conta</button>
+<button type="button" class="btn btn-block btn-success" onclick="Inserir()">Criar Conta</button>
 
 <script>
 
-    function CriarConta() {
+    function Inserir() {
         window.location.href = "../Conta/CriarConta"
     }
 
     function Excluir(id) {
         window.location.href = "../Conta/ExcluirConta/" + id;
+    }
+    function Editar(id) {
+        window.location.href = "../Conta/CriarConta/" + id;
     }
 </script>
