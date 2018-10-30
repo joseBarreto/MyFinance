@@ -24,14 +24,40 @@ namespace MyFinance.Controllers
             ViewBag.ListaTransacoes = new TransacaoModel().GetTransacoes(id_usuario_logado);
             return View();
         }
-
-        public IActionResult Extrato()
+        [HttpPost]
+        [HttpGet]
+        public IActionResult Extrato(TransacaoModel transacao)
         {
+            int.TryParse(HttpContextAccessor.HttpContext.Session.GetString("IdUsuarioLogado"), out int id_usuario_logado);
+
+            ViewBag.ListaTransacao = transacao.GetTransacoes(id_usuario_logado);
+            ViewBag.ListaConta = new ContaModel().GetContas(id_usuario_logado);
             return View();
         }
 
+        [HttpGet]
         public IActionResult Dashboard()
         {
+            int.TryParse(HttpContextAccessor.HttpContext.Session.GetString("IdUsuarioLogado"), out int id_usuario_logado);
+            var listDashboard = new DashboardModel().GetDadosGraficoPie(id_usuario_logado);
+
+            string valores = "";
+            string labels = "";
+            string cores = "";
+            var random = new Random();
+            foreach (var item in listDashboard)
+            {
+                var color = String.Format("#{0:X6}", random.Next(0x1000000)); // = "#A197B9"
+
+                valores += $"{item.Total},";
+                labels += $"'{item.Descricao}',";
+                cores += $"'{color}',";
+            }
+            ViewBag.Valores = valores;
+            ViewBag.Labels = labels;
+            ViewBag.Cores = cores;
+
+
             return View();
         }
 

@@ -12,6 +12,12 @@ namespace MyFinance.Models
         public int Id { get; set; }
         [Required(ErrorMessage = "Informe a Data")]
         public DateTime? Data { get; set; }
+
+
+        public DateTime? DataInicio { get; set; }
+        public DateTime? DataFim { get; set; }
+
+
         [Required(ErrorMessage = "Informe o Tipo")]
         public string Tipo { get; set; }
         [Required(ErrorMessage = "Informe o Valor")]
@@ -27,6 +33,24 @@ namespace MyFinance.Models
         {
             List<TransacaoModel> list = new List<TransacaoModel>();
 
+            string filtro = "";
+
+            if (DataInicio != null && DataFim != null)
+            {
+                filtro += $" AND T.DATA >= '{DataInicio?.ToString("yyyy/MM/dd")}' " +
+                          $" AND T.DATA <= '{DataFim?.ToString("yyy/MM/dd")}'";
+            }
+
+            if (!string.IsNullOrEmpty(Tipo) && Tipo != "A")
+            {
+                filtro += $" AND T.TIPO = '{Tipo[0]}'";
+            }
+
+            if (Conta_Id > 0)
+            {
+                filtro += $" AND T.CONTA_ID = '{Conta_Id}'";
+            }
+
             string sql = "SELECT " +
                 "T.ID AS TRANSACAO_ID, " +
                 "T.DATA, " +
@@ -40,7 +64,7 @@ namespace MyFinance.Models
                 "FROM TRANSACAO AS T " +
                 "LEFT JOIN CONTA AS C ON C.Id = T.Conta_Id " +
                 "LEFT JOIN PLANO_CONTAS AS PC ON PC.Id = T.Plano_Contas_Id " +
-                $"WHERE PC.USUARIO_ID = {id_usuario_logado} " +
+                $"WHERE PC.USUARIO_ID = {id_usuario_logado} {filtro}" +
                 " ORDER BY T.DATA DESC ";
 
             var dt = Util.DAL.RetDataTable(sql);
@@ -125,6 +149,37 @@ namespace MyFinance.Models
         {
             string sql = $"DELETE FROM TRANSACAO WHERE ID = {id}";
             Util.DAL.ExecutarComandoSql(sql);
+        }
+    }
+
+
+    public class DashboardModel
+    {
+        public double Total { get; set; }
+        public string Descricao { get; set; }
+
+        public List<DashboardModel> GetDadosGraficoPie(int id_usuario)
+        {
+            List<DashboardModel> list = new List<DashboardModel>();
+            string sql = $"SELECT SUM(T.VALOR) AS TOTAL, P.DESCRICAO " +
+                $"FROM TRANSACAO AS T " +
+                $"LEFT JOIN PLANO_CONTAS AS P ON P.ID = T.PLANO_CONTAS_ID " +
+                $"WHERE T.TIPO = 'D' AND P.USUARIO_ID = {id_usuario} " +
+                $"GROUP BY P.DESCRICAO";
+
+            var dt = Util.DAL.RetDataTable(sql);
+
+            foreach (DataRow item in dt.Rows)
+            {
+                list.Add(new DashboardModel()
+                {
+                    Descricao = item["DESCRICAO"].ToString(),
+                    Total = double.Parse(item["TOTAL"].ToString()),
+                });
+            }
+
+            return list;
+
         }
     }
 }
